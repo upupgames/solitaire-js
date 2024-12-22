@@ -1,6 +1,7 @@
 import Card from "./Card";
 import { NUM_CARDS, Suit } from "./constants/deck";
-import { PileId, TABLEAU_PILES } from "./constants/table";
+import type { PileId } from "./constants/table";
+import { TABLEAU_PILES } from "./constants/table";
 
 const NUM_VALUES = 13;
 
@@ -21,27 +22,35 @@ export default class Deck {
   public deal(scene: Phaser.Scene): void {
     // Flip all back
     this.cards.forEach((card: Card) => {
-      card.flipBack(scene);
+      card.flip(scene);
     });
 
+    for (let cardIndex = 0; cardIndex < 52; cardIndex += 1) {
+      const col = cardIndex % 8;
+      const row = Math.floor(cardIndex / 8);
+      this.cards[cardIndex].reposition(TABLEAU_PILES[col], row);
+    }
+
     // Set positions
-    let x = 0;
-    for (let i = 0; i < TABLEAU_PILES.length; i += 1) {
-      for (let t = 0; t < i + 1; t += 1) {
-        this.cards[x].reposition(TABLEAU_PILES[i], t);
-
-        if (i === t) {
-          this.cards[x].flip(scene);
-        }
-
-        x += 1;
-      }
-    }
-
-    // Rest go in stack
-    for (let i = x; i < NUM_CARDS; i += 1) {
-      this.cards[i].reposition(PileId.Stock, i - x);
-    }
+    /*
+     *Let x = 0;
+     *for (let i = 0; i < TABLEAU_PILES.length; i += 1) {
+     *  for (let t = 0; t < i + 1; t += 1) {
+     *    this.cards[x].reposition(TABLEAU_PILES[i], t);
+     *
+     *    if (i === t) {
+     *      this.cards[x].flip(scene);
+     *    }
+     *
+     *    x += 1;
+     *  }
+     *}
+     *
+     * // Rest go in stack
+     *for (let i = x; i < NUM_CARDS; i += 1) {
+     *  this.cards[i].reposition(PileId.Stock, i - x);
+     *}
+     */
   }
 
   public shuffle(a: Card[]): Card[] {
