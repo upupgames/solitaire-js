@@ -13,6 +13,7 @@ export enum PileId {
   Tableau5 = "TABLEAU_5",
   Tableau6 = "TABLEAU_6",
   Tableau7 = "TABLEAU_7",
+  Tableau8 = "TABLEAU_8",
   Foundation1 = "FOUNDATION_1",
   Foundation2 = "FOUNDATION_2",
   Foundation3 = "FOUNDATION_3",
@@ -31,6 +32,7 @@ export const TABLEAU_PILES = [
   PileId.Tableau5,
   PileId.Tableau6,
   PileId.Tableau7,
+  PileId.Tableau8,
 ];
 
 /**
@@ -60,13 +62,14 @@ export const PILE_POSITIONS: Record<PileId, Phaser.Math.Vector2> = {
   [PileId.Foundation3]: new Phaser.Math.Vector2(390 + 2 * PILE_OFFSET, 120),
   [PileId.Foundation4]: new Phaser.Math.Vector2(390 + 3 * PILE_OFFSET, 120),
 
-  [PileId.Tableau1]: new Phaser.Math.Vector2(110, 280),
-  [PileId.Tableau2]: new Phaser.Math.Vector2(110 + PILE_OFFSET, 280),
-  [PileId.Tableau3]: new Phaser.Math.Vector2(110 + 2 * PILE_OFFSET, 280),
-  [PileId.Tableau4]: new Phaser.Math.Vector2(110 + 3 * PILE_OFFSET, 280),
-  [PileId.Tableau5]: new Phaser.Math.Vector2(110 + 4 * PILE_OFFSET, 280),
-  [PileId.Tableau6]: new Phaser.Math.Vector2(110 + 5 * PILE_OFFSET, 280),
-  [PileId.Tableau7]: new Phaser.Math.Vector2(110 + 6 * PILE_OFFSET, 280),
+  [PileId.Tableau1]: new Phaser.Math.Vector2(80, 280),
+  [PileId.Tableau2]: new Phaser.Math.Vector2(80 + PILE_OFFSET, 280),
+  [PileId.Tableau3]: new Phaser.Math.Vector2(80 + 2 * PILE_OFFSET, 280),
+  [PileId.Tableau4]: new Phaser.Math.Vector2(80 + 3 * PILE_OFFSET, 280),
+  [PileId.Tableau5]: new Phaser.Math.Vector2(80 + 4 * PILE_OFFSET, 280),
+  [PileId.Tableau6]: new Phaser.Math.Vector2(80 + 5 * PILE_OFFSET, 280),
+  [PileId.Tableau7]: new Phaser.Math.Vector2(80 + 6 * PILE_OFFSET, 280),
+  [PileId.Tableau8]: new Phaser.Math.Vector2(80 + 7 * PILE_OFFSET, 280),
 
   [PileId.None]: new Phaser.Math.Vector2(0, 0),
 };
