@@ -1,6 +1,10 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-bitwise */
+/* eslint-disable no-duplicate-imports */
 import Card from "./Card";
 import { NUM_CARDS, Suit } from "./constants/deck";
-import { PileId, TABLEAU_PILES } from "./constants/table";
+import type { PileId } from "./constants/table";
+import { TABLEAU_PILES } from "./constants/table";
 
 const NUM_VALUES = 13;
 
@@ -14,42 +18,61 @@ export default class Deck {
       });
     }
 
-    this.shuffle(this.cards);
+    this.cards = this.shuffle(this.cards, 476);
     this.deal(scene);
   }
 
   public deal(scene: Phaser.Scene): void {
     // Flip all back
     this.cards.forEach((card: Card) => {
-      card.flipBack(scene);
+      card.flip(scene);
     });
 
+    for (let cardIndex = 0; cardIndex < NUM_CARDS; cardIndex += 1) {
+      const col = cardIndex % 8;
+      const row = Math.floor(cardIndex / 8);
+      this.cards[cardIndex].reposition(TABLEAU_PILES[col], row);
+    }
+
     // Set positions
-    let x = 0;
-    for (let i = 0; i < TABLEAU_PILES.length; i += 1) {
-      for (let t = 0; t < i + 1; t += 1) {
-        this.cards[x].reposition(TABLEAU_PILES[i], t);
-
-        if (i === t) {
-          this.cards[x].flip(scene);
-        }
-
-        x += 1;
-      }
-    }
-
-    // Rest go in stack
-    for (let i = x; i < NUM_CARDS; i += 1) {
-      this.cards[i].reposition(PileId.Stock, i - x);
-    }
+    /*
+     *Let x = 0;
+     *for (let i = 0; i < TABLEAU_PILES.length; i += 1) {
+     *  for (let t = 0; t < i + 1; t += 1) {
+     *    this.cards[x].reposition(TABLEAU_PILES[i], t);
+     *
+     *    if (i === t) {
+     *      this.cards[x].flip(scene);
+     *    }
+     *
+     *    x += 1;
+     *  }
+     *}
+     *
+     * // Rest go in stack
+     *for (let i = x; i < NUM_CARDS; i += 1) {
+     *  this.cards[i].reposition(PileId.Stock, i - x);
+     *}
+     */
   }
 
-  public shuffle(a: Card[]): Card[] {
-    for (let i = a.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
+  public shuffle(deck: Card[], seed: number): Card[] {
+    const a = 214013;
+    const c = 2531011;
+    const m = 2147483648;
+    let rng = seed >>> 0;
+
+    for (let i = 51; i > 0; i--) {
+      rng = (a * rng + c) % m >>> 0;
+      const j = Math.floor((rng / 65536) % (i + 1));
+
+      const temp = deck[i];
+      deck[i] = deck[j];
+      deck[j] = temp;
     }
-    return a;
+
+    deck.reverse();
+    return deck;
   }
 
   public cardChildren(card: Card): Card[] {
